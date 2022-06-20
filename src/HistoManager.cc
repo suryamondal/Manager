@@ -1,0 +1,59 @@
+
+#include "HistoManager.h"
+
+TH1* HistoManager::getHistogramH1(const TString& name)
+{
+  std::unique_ptr<TH1>& hist = m_histograms_h1[name];
+  return hist.get();
+}
+
+TH2* HistoManager::getHistogramH2(const TString& name)
+{
+  std::unique_ptr<TH2>& hist = m_histograms_h2[name];
+  return hist.get();
+}
+
+TH3* HistoManager::getHistogramH3(const TString& name)
+{
+  std::unique_ptr<TH3>& hist = m_histograms_h3[name];
+  return hist.get();
+}
+
+void HistoManager::fillValue(const TString& name, const double& value, const double& wt)
+{
+  TH1* h = getHistogramH1(name);
+  if(h) h->Fill(value, wt);
+}
+
+void HistoManager::fillValue(const TString& name, const double& value1, const double& value2, const double& wt)
+{
+  TH2* h = getHistogramH2(name);
+  if(h) h->Fill(value1, value2, wt);
+}
+
+void HistoManager::fillValue(const TString& name, const double& value1, const double& value2, const double& value3, const double& wt)
+{
+  TH3* h = getHistogramH3(name);
+  if(h) h->Fill(value1, value2, value3, wt);
+}
+
+void HistoManager::setHistogram(TH1* histo)
+{
+  TString name = histo->GetName();
+  std::unique_ptr<TH1>& hist = m_histograms_h1[name];
+  if(!hist) hist.reset(histo);
+}
+
+void HistoManager::setHistogram(TH2* histo)
+{
+  TString name = histo->GetName();
+  std::unique_ptr<TH2>& hist = m_histograms_h2[name];
+  if(!hist) hist.reset(histo);
+}
+
+void HistoManager::setHistogram(TH3* histo)
+{
+  TString name = histo->GetName();
+  std::unique_ptr<TH3>& hist = m_histograms_h3[name];
+  if(!hist) hist.reset(histo);
+}
