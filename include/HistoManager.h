@@ -14,6 +14,13 @@
 class HistoManager {
 
 public:
+
+  HistoManager(const TString& filename)
+  {
+    m_rootFile.reset(new TFile(filename, "recreate"));
+  }
+  ~HistoManager() {};
+
   /** create new histograms
    * All in double
    */
@@ -47,5 +54,8 @@ protected:
   std::map<TString, std::unique_ptr<TH1>> m_histograms_h1;
   std::map<TString, std::unique_ptr<TH2>> m_histograms_h2;
   std::map<TString, std::unique_ptr<TH3>> m_histograms_h3;
+
+  /** TFile pointer */
+  std::unique_ptr<TFile> m_rootFile;
 
 };
