@@ -1,6 +1,33 @@
 
 #include "HistoManager.h"
 
+void HistoManager::createHisto(const TString& name, const TString& title,
+			       const int& binx, const double& minx, const double& maxx)
+{
+  std::unique_ptr<TH1>& hist = m_histograms_h1[name];
+  // m_rootFile->cd(m_name.c_str());
+  hist.reset(new TH1D(name.Data(), title.Data(), binx, minx, maxx));
+}
+
+void HistoManager::createHisto(const TString& name, const TString& title,
+			       const int& binx, const double& minx, const double& maxx,
+			       const int& biny, const double& miny, const double& maxy)
+{
+  std::unique_ptr<TH2>& hist = m_histograms_h2[name];
+  // m_rootFile->cd(m_name.c_str());
+  hist.reset(new TH2D(name.Data(), title.Data(), binx, minx, maxx, biny, miny, maxy));
+}
+
+void HistoManager::createHisto(const TString& name, const TString& title,
+			       const int& binx, const double& minx, const double& maxx,
+			       const int& biny, const double& miny, const double& maxy,
+			       const int& binz, const double& minz, const double& maxz)
+{
+  std::unique_ptr<TH3>& hist = m_histograms_h3[name];
+  // m_rootFile->cd(m_name.c_str());
+  hist.reset(new TH3D(name.Data(), title.Data(), binx, minx, maxx, biny, miny, maxy, binz, minz, maxz));
+}
+
 TH1* HistoManager::getHistogramH1(const TString& name)
 {
   std::unique_ptr<TH1>& hist = m_histograms_h1[name];

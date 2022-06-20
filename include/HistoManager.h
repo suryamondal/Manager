@@ -14,10 +14,18 @@
 class HistoManager {
 
 public:
-  /** create new histograms */
-  void createHisto(const TString& name, const TString& title, const int& binx, const double& minx, const double& maxx);
-  void createHisto(const TString& name, const TString& title, const int& binx, const double& minx, const double& maxx, const int& biny, const double& miny, const double& maxy);
-  void createHisto(const TString& name, const TString& title, const int& binx, const double& minx, const double& maxx, const int& biny, const double& miny, const double& maxy, const int& binz, const double& minz, const double& maxz);
+  /** create new histograms
+   * All in double
+   */
+  void createHisto(const TString& name, const TString& title,
+		   const int& binx, const double& minx, const double& maxx);
+  void createHisto(const TString& name, const TString& title,
+		   const int& binx, const double& minx, const double& maxx,
+		   const int& biny, const double& miny, const double& maxy);
+  void createHisto(const TString& name, const TString& title,
+		   const int& binx, const double& minx, const double& maxx,
+		   const int& biny, const double& miny, const double& maxy,
+		   const int& binz, const double& minz, const double& maxz);
 
   /** get histogram for a given name */
   TH1* getHistogramH1(const TString& name);
