@@ -5,7 +5,8 @@ void HistoManager::createHisto(const TString& name, const TString& title,
 			       const int& binx, const double& minx, const double& maxx)
 {
   std::unique_ptr<TH1>& hist = m_histograms_h1[name];
-  // m_rootFile->cd(m_name.c_str());
+  TString group = getGroup(name);
+  createGroup(group); m_rootFile->cd(group);
   hist.reset(new TH1D(name.Data(), title.Data(), binx, minx, maxx));
 }
 
@@ -14,7 +15,8 @@ void HistoManager::createHisto(const TString& name, const TString& title,
 			       const int& biny, const double& miny, const double& maxy)
 {
   std::unique_ptr<TH2>& hist = m_histograms_h2[name];
-  // m_rootFile->cd(m_name.c_str());
+  TString group = getGroup(name);
+  createGroup(group); m_rootFile->cd(group);
   hist.reset(new TH2D(name.Data(), title.Data(), binx, minx, maxx, biny, miny, maxy));
 }
 
@@ -24,7 +26,8 @@ void HistoManager::createHisto(const TString& name, const TString& title,
 			       const int& binz, const double& minz, const double& maxz)
 {
   std::unique_ptr<TH3>& hist = m_histograms_h3[name];
-  // m_rootFile->cd(m_name.c_str());
+  TString group = getGroup(name);
+  createGroup(group); m_rootFile->cd(group);
   hist.reset(new TH3D(name.Data(), title.Data(), binx, minx, maxx, biny, miny, maxy, binz, minz, maxz));
 }
 
@@ -83,4 +86,23 @@ void HistoManager::setHistogram(TH3* histo)
   TString name = histo->GetName();
   std::unique_ptr<TH3>& hist = m_histograms_h3[name];
   if(!hist) hist.reset(histo);
+}
+
+void HistoManager::setGroup(const TString& name, const TString& group)
+{
+  if(name != "" && group != "") m_histoGroups[name] = group;
+}
+
+TString HistoManager::getGroup(const TString& name) const
+{
+  TString val = "";
+  if(m_histoGroups.find(name) != m_histoGroups.end()) val = m_histoGroups[name];
+  if(val == "") val = "Extras";
+  return val;
+}
+
+void HistoManager::createGroup(const TString& group)
+{
+  m_rootFile->cd();
+  m_rootFile->mkdir(group.Data(), "", true);
 }

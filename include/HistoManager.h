@@ -1,7 +1,11 @@
 #pragma once
 
+#include <iostream>
+#include <memory>
 #include <map>
 #include <optional>
+#include <iomanip>
+#include <utility>
 
 #include "TMath.h"
 #include "TString.h"
@@ -49,11 +53,24 @@ public:
   void setHistogram(TH2* histo);
   void setHistogram(TH3* histo);
 
+  /** Groups of Histograms */
+  void setGroup(const TString& name, const TString& group);
+  TString getGroup(const TString& name) const;
+
+  /** Create group in root file */
+  void createGroup(const TString& group);
+
 protected:
   /** Map holding pointers to all created histograms */
   std::map<TString, std::unique_ptr<TH1>> m_histograms_h1;
   std::map<TString, std::unique_ptr<TH2>> m_histograms_h2;
   std::map<TString, std::unique_ptr<TH3>> m_histograms_h3;
+
+  /** Map holding groups of all histograms
+   *
+   * Names of histograms must be unique irrespective of dimensions. So one map is enough
+   */
+  std::map<TString, TString> m_histoGroups;
 
   /** TFile pointer */
   std::unique_ptr<TFile> m_rootFile;
