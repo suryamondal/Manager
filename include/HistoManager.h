@@ -19,11 +19,14 @@ class HistoManager {
 
 public:
 
-  HistoManager(const TString& filename)
-  {
-    m_rootFile.reset(new TFile(filename, "recreate"));
-  }
+  HistoManager() {};
   ~HistoManager() {};
+
+  /** Static referance to the singleton */
+  static HistoManager& Instance();
+
+  /** Create Root File */
+  void setRootFile(const TString& filename);
 
   /** create new histograms
    * All in double

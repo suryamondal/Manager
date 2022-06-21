@@ -1,6 +1,18 @@
 
 #include "HistoManager.h"
 
+static HistoManager& HistoManager::Instance()
+{
+  static HistoManager v;
+  return v;
+}
+
+HistoManager::setRootFile(const TString& filename)
+{
+  if (!m_rootFile) m_rootFile.reset(new TFile(filename, "recreate"));
+  else std::cout<<"Root file already exists"<<std::endl;
+}
+
 void HistoManager::createHisto(const TString& name, const TString& title,
 			       const int& binx, const double& minx, const double& maxx)
 {
@@ -8,6 +20,7 @@ void HistoManager::createHisto(const TString& name, const TString& title,
   TString group = getGroup(name);
   createGroup(group); m_rootFile->cd(group);
   hist.reset(new TH1D(name.Data(), title.Data(), binx, minx, maxx));
+  std::cout<<"H1 : "<<name<<" created!"<<std::endl;
 }
 
 void HistoManager::createHisto(const TString& name, const TString& title,
@@ -18,6 +31,7 @@ void HistoManager::createHisto(const TString& name, const TString& title,
   TString group = getGroup(name);
   createGroup(group); m_rootFile->cd(group);
   hist.reset(new TH2D(name.Data(), title.Data(), binx, minx, maxx, biny, miny, maxy));
+  std::cout<<"H2 : "<<name<<" created!"<<std::endl;
 }
 
 void HistoManager::createHisto(const TString& name, const TString& title,
@@ -29,6 +43,7 @@ void HistoManager::createHisto(const TString& name, const TString& title,
   TString group = getGroup(name);
   createGroup(group); m_rootFile->cd(group);
   hist.reset(new TH3D(name.Data(), title.Data(), binx, minx, maxx, biny, miny, maxy, binz, minz, maxz));
+  std::cout<<"H3 : "<<name<<" created!"<<std::endl;
 }
 
 TH1* HistoManager::getHistogramH1(const TString& name)
