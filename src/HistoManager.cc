@@ -1,13 +1,13 @@
 
 #include "HistoManager.h"
 
-static HistoManager& HistoManager::Instance()
+HistoManager& HistoManager::Instance()
 {
   static HistoManager v;
   return v;
 }
 
-HistoManager::setRootFile(const TString& filename)
+void HistoManager::setRootFile(const TString& filename)
 {
   if (!m_rootFile) m_rootFile.reset(new TFile(filename, "recreate"));
   else std::cout<<"Root file already exists"<<std::endl;
@@ -111,7 +111,8 @@ void HistoManager::setGroup(const TString& name, const TString& group)
 TString HistoManager::getGroup(const TString& name) const
 {
   TString val = "";
-  if(m_histoGroups.find(name) != m_histoGroups.end()) val = m_histoGroups[name];
+  auto element = m_histoGroups.find(name);
+  if(element != m_histoGroups.end()) val = element->second;
   if(val == "") val = "Extras";
   return val;
 }
