@@ -24,10 +24,10 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 add_compile_options(-Wall -Wextra -pedantic)
 
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
-file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.h)
+# file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.h)
 
 separate_arguments(ROOT_EXE_LINKER_FLAGS)
-add_executable(Manager ${sources})
+add_executable(Manager src/test.cpp ${sources})
 
 target_include_directories(Manager PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(Manager PUBLIC ${ROOT_LIBRARIES} ${ROOT_EXE_LINKER_FLAGS})
