@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.9)
 
 # set the project name
-project(histogram_manager)
+project(Manager)
 
 
 # Set the output folder where your program will be created
@@ -27,10 +27,10 @@ file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.h)
 
 separate_arguments(ROOT_EXE_LINKER_FLAGS)
-add_executable(histogram_manager ${sources})
+add_executable(Manager ${sources})
 
-target_include_directories(histogram_manager PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(histogram_manager PUBLIC ${ROOT_LIBRARIES} ${ROOT_EXE_LINKER_FLAGS})
+target_include_directories(Manager PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(Manager PUBLIC ${ROOT_LIBRARIES} ${ROOT_EXE_LINKER_FLAGS})
 
 # # specify the C++ standard
 # set(CMAKE_CXX_STANDARD 11)
@@ -39,4 +39,4 @@ target_link_libraries(histogram_manager PUBLIC ${ROOT_LIBRARIES} ${ROOT_EXE_LINK
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
-install(TARGETS histogram_manager DESTINATION bin)
+install(TARGETS Manager DESTINATION bin)
