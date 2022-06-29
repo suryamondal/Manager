@@ -24,13 +24,19 @@ public:
   };
 
   /** Get an element from map */
-  T GetEntry(const unsigned int *element) {
+  T GetEntry(const unsigned int *element) const {
     indentity nDim;
     for(int ij=0;ij<N;ij++) {nDim.point[ij] = element[ij];}
     auto it = arrayPtr.find(nDim);
     T val = (it != arrayPtr.end()) ? it->second : 0; 
     return val;
   };
+
+  /** Get dimension */
+  unsigned int GetDimension() const {
+    return N;
+  };
+  
 
 protected:
 
