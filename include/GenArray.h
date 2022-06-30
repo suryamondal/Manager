@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <memory>
+#include <map>
 #include <unordered_map>
 #include <optional>
 #include <iomanip>
@@ -70,23 +71,24 @@ protected:
     };
   };
 
-  /** The specialized hash function for `unordered_map` keys */
-  struct hash_fn {
-    std::size_t operator() (const indentity& o) const {
-      std::size_t h_total = 0;
-      for(unsigned int ij=0; ij<N; ij++) {
-	h_total <<= 1;
-	h_total ^= std::hash<unsigned int>()(o.point[ij]);
-#ifdef DEBUG
-	std::cout<<" index "<<ij<<", id "<<o.point[ij]<<std::endl;
-	std::cout<<" \thash "<<std::bitset<64>(h_total)<<std::endl;
-#endif
-      }
-      return h_total;
-    }
-  };
+  //   /** The specialized hash function for `unordered_map` keys */
+  //   struct hash_fn {
+  //     std::size_t operator() (const indentity& o) const {
+  //       std::size_t h_total = 0;
+  //       for(unsigned int ij=0; ij<N; ij++) {
+  // 	h_total <<= 1;
+  // 	h_total ^= std::hash<unsigned int>()(o.point[ij]);
+  // #ifdef DEBUG
+  // 	std::cout<<" index "<<ij<<", id "<<o.point[ij]<<std::endl;
+  // 	std::cout<<" \thash "<<std::bitset<64>(h_total)<<std::endl;
+  // #endif
+  //       }
+  //       return h_total;
+  //     }
+  //   };
 
   /** Array element map */
-  std::unordered_map<indentity, T, hash_fn> arrayPtr;
+  // std::unordered_map<indentity, T, hash_fn> arrayPtr;
+  std::map<indentity, T> arrayPtr;
 
 };
