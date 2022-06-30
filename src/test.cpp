@@ -1,22 +1,71 @@
 
+#include <ctime>
+
 #include "GenArray.h"
+
+
+
+void addBy(unsigned int* element, const int& incr, const unsigned int& index,
+	   const unsigned int& maxval, const unsigned int& maxindex) {
+  if(index < maxindex) {
+    element[index] += incr;
+    if(element[index] == maxval) {
+      element[index] = 0;
+      addBy(element, incr, index + 1, maxval, maxindex);
+    }
+  }
+}
 
 
 int main() {
 
+  /** testing CMAKE_FLAG */
+#ifdef DEBUG
+  std::cout<<" debug "<<std::endl;
+#endif
+
   /** testing array */
-  GenArray<int, 5> testArray;
-  unsigned int element1[5] = {1,1,2,3,4};
-  unsigned int element2[5] = {0,1,4,3,4};
-  unsigned int element3[5] = {2,2,2,3,4};
-  unsigned int element4[5] = {2,2,2,3,5};
-  testArray.SetEntry(element1, 5);
-  testArray.SetEntry(element2, 6);
-  testArray.SetEntry(element3, 7);
-  std::cout<<" entry "<<testArray.GetEntry(element1)<<std::endl;
-  std::cout<<" entry "<<testArray.GetEntry(element2)<<std::endl;
-  std::cout<<" entry "<<testArray.GetEntry(element3)<<std::endl;
-  std::cout<<" entry "<<testArray.GetEntry(element4)<<std::endl;
+
+  GenArray<int, 10> testArray;
+  unsigned int element[10] = {0};
+  int value = 0;
+
+  unsigned int start_s = clock();
+  
+  while(value<1e8) {
+    testArray.SetEntry(element, value);
+#ifdef DEBUG
+    std::cout<<" set";
+    for(unsigned int ij=0; ij<10; ij++) {
+      std::cout<<" "<<element[ij];
+    }
+    std::cout<<" value "<<value<<std::endl;
+#endif
+    addBy(element, 1, 0, 10, 10);
+    value++;
+  }
+
+  std::cout<<" store time "<<(clock()-start_s)/double(CLOCKS_PER_SEC)<<std::endl;
+  start_s = clock();
+ 
+  unsigned int element1[10] = {0};
+  value = 0;
+  
+  while(value<1e8) {
+    int readvalue = testArray.GetEntry(element1);
+#ifdef DEBUG
+    std::cout<<" get";
+    for(unsigned int ij=0; ij<10; ij++) {
+      std::cout<<" "<<element1[ij];
+    }
+    std::cout<<" value "<<readvalue<<std::endl;
+#endif
+    addBy(element1, 1, 0, 10, 10);
+    value++;
+  }
+
+  std::cout<<" read time "<<(clock()-start_s)/double(CLOCKS_PER_SEC)<<std::endl;
+  start_s = clock();
 
   std::cout<<" Dim "<<testArray.GetDimension()<<std::endl;
   std::cout<<" Size "<<testArray.GetSize()<<std::endl;
