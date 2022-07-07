@@ -13,36 +13,39 @@ void HistoManager::setRootFile(const TString& filename)
   else std::cout<<"Root file already exists"<<std::endl;
 }
 
+template<class T>
 void HistoManager::createHisto(const TString& name, const TString& title,
 			       const int& binx, const double& minx, const double& maxx)
 {
-  std::unique_ptr<TH1>& hist = m_histograms_h1[name];
+  std::unique_ptr<T>& hist = m_histograms_h1[name];
   TString group = getGroup(name);
   createGroup(group); m_rootFile->cd(group);
-  hist.reset(new TH1D(name.Data(), title.Data(), binx, minx, maxx));
+  hist.reset(new T(name.Data(), title.Data(), binx, minx, maxx));
   std::cout<<"H1 : "<<name<<" created!"<<std::endl;
 }
 
+template<class T>
 void HistoManager::createHisto(const TString& name, const TString& title,
 			       const int& binx, const double& minx, const double& maxx,
 			       const int& biny, const double& miny, const double& maxy)
 {
-  std::unique_ptr<TH2>& hist = m_histograms_h2[name];
+  std::unique_ptr<T>& hist = m_histograms_h2[name];
   TString group = getGroup(name);
   createGroup(group); m_rootFile->cd(group);
-  hist.reset(new TH2D(name.Data(), title.Data(), binx, minx, maxx, biny, miny, maxy));
+  hist.reset(new T(name.Data(), title.Data(), binx, minx, maxx, biny, miny, maxy));
   std::cout<<"H2 : "<<name<<" created!"<<std::endl;
 }
 
+template<class T>
 void HistoManager::createHisto(const TString& name, const TString& title,
 			       const int& binx, const double& minx, const double& maxx,
 			       const int& biny, const double& miny, const double& maxy,
 			       const int& binz, const double& minz, const double& maxz)
 {
-  std::unique_ptr<TH3>& hist = m_histograms_h3[name];
+  std::unique_ptr<T>& hist = m_histograms_h3[name];
   TString group = getGroup(name);
   createGroup(group); m_rootFile->cd(group);
-  hist.reset(new TH3D(name.Data(), title.Data(), binx, minx, maxx, biny, miny, maxy, binz, minz, maxz));
+  hist.reset(new T(name.Data(), title.Data(), binx, minx, maxx, biny, miny, maxy, binz, minz, maxz));
   std::cout<<"H3 : "<<name<<" created!"<<std::endl;
 }
 

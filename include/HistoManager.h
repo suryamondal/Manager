@@ -28,14 +28,15 @@ public:
   /** Create Root File */
   void setRootFile(const TString& filename);
 
-  /** create new histograms
-   * All in double
-   */
+  /** create new histograms */
+  template<class T>
   void createHisto(const TString& name, const TString& title,
 		   const int& binx, const double& minx, const double& maxx);
+  template<class T>
   void createHisto(const TString& name, const TString& title,
 		   const int& binx, const double& minx, const double& maxx,
 		   const int& biny, const double& miny, const double& maxy);
+  template<class T>
   void createHisto(const TString& name, const TString& title,
 		   const int& binx, const double& minx, const double& maxx,
 		   const int& biny, const double& miny, const double& maxy,
