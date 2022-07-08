@@ -2,7 +2,7 @@
 #include <ctime>
 
 #include "GenArray.h"
-
+#include "ObjectManager.h"
 
 
 void addBy(unsigned int* element, const int& incr, const unsigned int& index,
@@ -32,7 +32,7 @@ int main() {
 
   unsigned int start_s = clock();
   
-  while(value<1e8) {
+  while(value<1e6) {
     testArray.SetEntry(element, value);
 #ifdef DEBUG
     std::cout<<" set";
@@ -51,7 +51,7 @@ int main() {
   unsigned int element1[10] = {0};
   value = 0;
   
-  while(value<1e8) {
+  while(value<1e6) {
     int readvalue = testArray.GetEntry(element1);
 #ifdef DEBUG
     std::cout<<" get";
@@ -69,6 +69,22 @@ int main() {
 
   std::cout<<" Dim "<<testArray.GetDimension()<<std::endl;
   std::cout<<" Size "<<testArray.GetSize()<<std::endl;
+
+  std::cout<<"\n Now testing ObjectManager"<<std::endl;
+
+  ObjectManager myManager;
+
+  TFile *file = new TFile("test.root","recreate");
+  myManager.SetObject<TFile>("OutputRootFile", file);
+  auto* file1 = myManager.GetObject("OutputRootFile");
+  if(file1) std::cout<<" file1 "<<(&file1)<<std::endl;
+
+  myManager.SetGroup();
+  TH1D *h1 = new TH1D("h1","h1",100,0,1);
+  myManager.SetObject<TH1D>("h1", h1);
+  
+  TFile *file2 = new TFile("test1.root");
+  myManager.SetObject<TFile>("InputRootFile", file2);
 
   return 0;
 }
