@@ -60,6 +60,15 @@ class ObjectManager {
     } else {return nullptr;}
   }
 
+  template<class T>
+    T* GetObject(const TString& name)
+    {
+      auto hist = m_Objects.find(name);
+      if(hist != m_Objects.end()) {
+	return ((T*)hist->second.get());
+      } else {return nullptr;}
+    }
+
   void SetGroup(const TString& group = "Extras", const TString& fname = "OutputRootFile")
   {
     auto* tfile = GetObject(fname);
