@@ -72,11 +72,14 @@ int main() {
 
   std::cout<<"\n Now testing ObjectManager"<<std::endl;
 
-  ObjectManager myManager;
+  ObjectManager& myManager  = ObjectManager::Instance();
+  // ObjectManager& myManager1 = ObjectManager::Instance();
+
+  // std::cout<<" "<<&myManager<<" "<<&myManager1<<std::endl;
 
   TFile *file = new TFile("test.root","recreate");
   myManager.SetObject<TFile>("OutputRootFile", file);
-  auto* file1 = myManager.GetObject("OutputRootFile");
+  auto* file1 = myManager.GetObject<void>("OutputRootFile");
   if(file1) std::cout<<" file1 "<<(&file1)<<std::endl;
 
   myManager.SetGroup();
@@ -87,6 +90,11 @@ int main() {
   myManager.SetObject<TFile>("InputRootFile", file2);
 
   myManager.fillHisto("h1", 0.5, 1.);
+  myManager.fillHisto("h1", 0.5, 1.);
+
+  // myManager1.fillHisto("h1", 0.2, 1.);
+
+  myManager.WriteOut();
   
   return 0;
 }
