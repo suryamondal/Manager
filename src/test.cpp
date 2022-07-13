@@ -82,12 +82,11 @@ int main() {
   myManager.SetGroup();
   TH1D *h1 = new TH1D("h1","h1",100,0,1);
   myManager.SetObject<TH1D>("h1", h1);
-  auto *h2 = myManager.GetObject<TH1D>("h1");
   
   TFile *file2 = new TFile("test1.root");
   myManager.SetObject<TFile>("InputRootFile", file2);
 
-  h2->Fill(0.5);
-
+  myManager.fillHisto("h1", 0.5, 1.);
+  
   return 0;
 }

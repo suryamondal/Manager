@@ -26,12 +26,9 @@ class ObjectManager {
     for(const auto& name : m_WriteOut) {
       auto* file = GetObject(name);
       if(file) {
-	TString option = ((TFile*)file)->GetOption();
 	TString filename = ((TFile*)file)->GetName();
-	if(option != "READ") {
-	  std::cout<<" writing out with option "<<option<<" : "<<filename<<std::endl;
-	  ((TFile*)file)->Write();
-	}
+	std::cout<<" writing out : "<<filename<<std::endl;
+	((TFile*)file)->Write();
       }
     }
   };
@@ -44,7 +41,8 @@ class ObjectManager {
     {
       auto& hist = m_Objects[name];
       if(std::is_same_v<TFile, T>) {
-	m_WriteOut.push_back(name);
+	TString option = obj->GetOption();
+	if(option != "READ") m_WriteOut.push_back(name);
       }
       if(!hist) {
 	hist.reset(obj);
@@ -73,9 +71,27 @@ class ObjectManager {
   {
     auto* tfile = GetObject(fname);
     if(tfile) {
-      ((TFile*)tfile)->mkdir(group);
+      if(group != "") ((TFile*)tfile)->mkdir(group);
       ((TFile*)tfile)->cd(group);
     }
+  }
+
+  void fillHisto(const TString& name, const double& value, const double& wt)
+  {
+    TH1* h = GetObject<TH1>(name);
+    if(h) h->Fill(value, wt);
+  }
+
+  void fillHisto(const TString& name, const double& value1, const double& value2, const double& wt)
+  {
+    TH2* h = GetObject<TH2>(name);
+    if(h) h->Fill(value1, value2, wt);
+  }
+
+  void fillHisto(const TString& name, const double& value1, const double& value2, const double& value3, const double& wt)
+  {
+    TH3* h = GetObject<TH3>(name);
+    if(h) h->Fill(value1, value2, value3, wt);
   }
 
  protected:
