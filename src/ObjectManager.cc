@@ -14,7 +14,6 @@ void ObjectManager::WriteOut() {
 ObjectManager& ObjectManager::Instance()
 {
   static ObjectManager v;
-  std::cout<<" ObjectManager singleton created at "<<&v<<std::endl;
   return v;
 }
 
@@ -30,7 +29,6 @@ void ObjectManager::SetGroup(const TString& group, const TString& fname)
 void ObjectManager::fillHisto(const TString& name, const double& value, const double& wt)
 {
   TH1* h = GetObject<TH1>(name);
-  std::cout<<" filling histogram at "<<&h<<std::endl;
   if(h) h->Fill(value, wt);
 }
 

@@ -70,31 +70,26 @@ int main() {
   std::cout<<" Dim "<<testArray.GetDimension()<<std::endl;
   std::cout<<" Size "<<testArray.GetSize()<<std::endl;
 
+
   std::cout<<"\n Now testing ObjectManager"<<std::endl;
 
-  ObjectManager& myManager  = ObjectManager::Instance();
-  // ObjectManager& myManager1 = ObjectManager::Instance();
-
-  // std::cout<<" "<<&myManager<<" "<<&myManager1<<std::endl;
-
   TFile *file = new TFile("test.root","recreate");
-  myManager.SetObject<TFile>("OutputRootFile", file);
-  auto* file1 = myManager.GetObject<void>("OutputRootFile");
+  ObjectManager::Instance().SetObject<TFile>("OutputRootFile", file);
+  auto* file1 = ObjectManager::Instance().GetObject<void>("OutputRootFile");
   if(file1) std::cout<<" file1 "<<(&file1)<<std::endl;
 
-  myManager.SetGroup();
+  ObjectManager::Instance().SetGroup();
   TH1D *h1 = new TH1D("h1","h1",100,0,1);
-  myManager.SetObject<TH1D>("h1", h1);
+  ObjectManager::Instance().SetObject<TH1D>("h1", h1);
   
   TFile *file2 = new TFile("test1.root");
-  myManager.SetObject<TFile>("InputRootFile", file2);
+  ObjectManager::Instance().SetObject<TFile>("InputRootFile", file2);
 
-  myManager.fillHisto("h1", 0.5, 1.);
-  myManager.fillHisto("h1", 0.5, 1.);
+  ObjectManager::Instance().fillHisto("h1", 0.5, 1.);
+  ObjectManager::Instance().fillHisto("h1", 0.5, 1.);
+  ObjectManager::Instance().fillHisto("h1", 0.2, 1.5);
 
-  // myManager1.fillHisto("h1", 0.2, 1.);
-
-  myManager.WriteOut();
+  ObjectManager::Instance().WriteOut();
   
   return 0;
 }
