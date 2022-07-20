@@ -19,13 +19,15 @@
 
 class ObjectManager {
 
- public:
+public:
 
   ObjectManager() {};
   ~ObjectManager() {};
+  ObjectManager(ObjectManager const&)  = delete;
+  void operator=(ObjectManager const&) = delete;
 
   /** Static referance to the singleton */
-  static ObjectManager& Instance();
+  static ObjectManager* Instance();
 
   /** Writing tfile */
   void WriteOut();
@@ -72,5 +74,8 @@ protected:
 
   /** Map holding groups of all objects */
   std::vector<TString> m_WriteOut;
+
+  /** Static referance to the singleton */
+  static ObjectManager* instance;
 
 };

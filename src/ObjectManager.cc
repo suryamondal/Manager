@@ -9,12 +9,18 @@ void ObjectManager::WriteOut() {
       file->Write();
     }
   }
+  std::cout<<" writing out : success"<<std::endl;
 }
 
-ObjectManager& ObjectManager::Instance()
+ObjectManager* ObjectManager::instance = nullptr;
+
+ObjectManager* ObjectManager::Instance()
 {
-  static ObjectManager v;
-  return v;
+  if (instance == nullptr) {
+    static ObjectManager manager;
+    instance = &manager;
+  }
+  return instance;
 }
 
 void ObjectManager::SetGroup(const TString& group, const TString& fname)

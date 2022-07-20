@@ -74,22 +74,22 @@ int main() {
   std::cout<<"\n Now testing ObjectManager"<<std::endl;
 
   TFile *file = new TFile("test.root","recreate");
-  ObjectManager::Instance().SetObject<TFile>("OutputRootFile", file);
-  auto* file1 = ObjectManager::Instance().GetObject<void>("OutputRootFile");
+  ObjectManager::Instance()->SetObject<TFile>("OutputRootFile", file);
+  auto* file1 = ObjectManager::Instance()->GetObject<void>("OutputRootFile");
   if(file1) std::cout<<" file1 "<<(&file1)<<std::endl;
 
-  ObjectManager::Instance().SetGroup();
+  ObjectManager::Instance()->SetGroup();
   TH1D *h1 = new TH1D("h1","h1",100,0,1);
-  ObjectManager::Instance().SetObject<TH1D>("h1", h1);
+  ObjectManager::Instance()->SetObject<TH1D>("h1", h1);
   
   TFile *file2 = new TFile("test1.root");
-  ObjectManager::Instance().SetObject<TFile>("InputRootFile", file2);
+  ObjectManager::Instance()->SetObject<TFile>("InputRootFile", file2);
 
-  ObjectManager::Instance().fillHisto("h1", 0.5, 1.);
-  ObjectManager::Instance().fillHisto("h1", 0.5, 1.);
-  ObjectManager::Instance().fillHisto("h1", 0.2, 1.5);
+  ObjectManager::Instance()->fillHisto("h1", 0.5, 1.);
+  ObjectManager::Instance()->fillHisto("h1", 0.5, 1.);
+  ObjectManager::Instance()->fillHisto("h1", 0.2, 1.5);
 
-  ObjectManager::Instance().WriteOut();
+  ObjectManager::Instance()->WriteOut();
   
   return 0;
 }
